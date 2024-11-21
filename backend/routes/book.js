@@ -8,7 +8,10 @@ const { authenticateToken } = require("./userAuth");
 router.post("/add-book", authenticateToken, async (req, res) => {
  try {
     const { id } = req.headers;
-    const user = await User.findById(id)
+    const user = await User.findById(id);
+    if(user.role !== "admin"){
+        return res.status(400).json({mesage: "You do not have access to perform admin work"}); 
+    }
     const book = new Book({
         url: req.body.url,
         title: req.body.title,
@@ -18,6 +21,7 @@ router.post("/add-book", authenticateToken, async (req, res) => {
         language: req.body.language,
     });
     await book.save();
+    res.status(200).json({mesage: "Book added successfully"}); 
  } catch (error) {
     res.status(500).json({mesage: "Internal server error"});                 
     }
