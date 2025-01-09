@@ -19,15 +19,15 @@ const book = new mongoose.Schema({
         required: true,
     },
     desc: {
-        type: Number,
+        type: String,
         required: true,
     },
     language: {
-        type: Number,
+        type: String,
         required: true,
     },
 }, 
 {timestamps: true}
 );
 
-module.exports = mongoose.model("books", book)
+module.exports = mongoose.model("book", book)

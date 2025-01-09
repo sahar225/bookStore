@@ -19,7 +19,7 @@ router.post("/sign-up", async (req, res) => {
     const existingUsername = await User.findOne({ username: username });
     if (existingUsername) {
       return res.status(400).json({ message: "Username already exists" });
-    }
+    } ``
 
     //check email is valid
     const existingEmail = await User.findOne({ email: email });
@@ -51,7 +51,7 @@ router.post("/sign-up", async (req, res) => {
 //Sign In
 router.post("/sign-in", async (req, res) => {
   try {
-    console.log(req.body);
+    console.log('req.body');                                      
     const { username, password } = req.body;
     const existingUser = await User.findOne({ username });
     if (!existingUser) {
@@ -61,7 +61,7 @@ router.post("/sign-in", async (req, res) => {
       if (data) {
         const authCLaims = [
           { name: existingUser.username },
-          { role: existingUser.role },
+          { role: existingUser.role }, 
         ];
         const token = jwt.sign({ authCLaims }, "bookStore123", {
           expiresIn: "30d",
@@ -83,6 +83,7 @@ router.get("/get-user-information", authenticateToken, async (req, res) => {
   try {
     const { id } = req.headers;
     const data = await User.findById(id).select("-password");
+    console.log(password)
     return res.status(200).json(data);
   } catch (error) {
     res.status(500).json({ message: "Internal server error" });
@@ -94,7 +95,7 @@ router.put("/update-address", authenticateToken, async (req, res) => {
   try {
     const { id } = req.headers;
     const { address } = req.body;
-    await User.findByIdAndUpdate(id, { address: address });
+    await User.findByIdAndUpdate(id, { address: address, password:password });
     return res.status(200).json({ message: "Address updated successfully" });
   } catch (error) {
     res.status(500).json({ message: "Internal server error" });
