@@ -22,10 +22,12 @@ router.post("/add-book", authenticateToken, async (req, res) => {
         desc: req.body.desc,
         language: req.body.language,
     });
-    console.log(req.body.url)
-
+   
+   /*The error ERR_HTTP_HEADERS_SENT occurs because you're trying to send multiple responses for a single request,
+    which is not allowed in Node.js. In your code, this happens because you are calling both res.send() and res.status().json()
+    in the same route handler. */
     const savedData = await newBook.save();
-    res.send(savedData);
+    // res.send(savedData);
     res.status(200).json({mesage: "Book added successfully"}); 
  } catch (error) {
     console.log(error)   
