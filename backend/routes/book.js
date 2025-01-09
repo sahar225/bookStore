@@ -29,7 +29,7 @@ router.post("/add-book", authenticateToken, async (req, res) => {
     res.status(200).json({mesage: "Book added successfully"}); 
  } catch (error) {
     console.log(error)   
-    res.status(500).json({mesage: "Internal"});  
+    res.status(500).json({mesage: "Internal server error"});  
                
     }
 });
